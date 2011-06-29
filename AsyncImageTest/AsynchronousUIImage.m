@@ -1,0 +1,45 @@
+//
+//  AsynchronousImageView.m
+//  WallApp
+//
+//  Created by sebastiao Gazolla Costa Junior on 10/06/11.
+//  Copyright 2011 iPhone and Java developer. All rights reserved.
+//
+
+#import "AsynchronousUIImage.h"
+
+
+@implementation AsynchronousUIImage
+@synthesize delegate;
+@synthesize tag;
+
+- (void)loadImageFromURL:(NSString *)anUrl {
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:anUrl] 
+                                             cachePolicy:NSURLRequestReturnCacheDataElseLoad 
+                                         timeoutInterval:30.0];
+    
+    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData {
+    if (data == nil)
+        data = [[NSMutableData alloc] initWithCapacity:2048];
+    
+    [data appendData:incrementalData];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)theConnection 
+{
+    [self initWithData:data];
+    [data release], data = nil;
+    [connection release], connection = nil;    
+    [self.delegate imageDidLoad:self];
+}
+
+-(void)dealloc{
+    [super dealloc];
+    connection = nil;
+    data = nil;
+}
+
+@end
