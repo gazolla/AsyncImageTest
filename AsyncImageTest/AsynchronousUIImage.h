@@ -3,8 +3,7 @@
 //  WallApp
 //
 //  Created by sebastiao Gazolla Costa Junior on 10/06/11.
-//  Copyright 2011 iPhone and Java developer. All rights reserved.
-//
+// Based on http://iphone-dev-tips.alterplay.com/2009/10/asynchronous-uiimage.html
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
